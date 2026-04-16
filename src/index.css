@@ -1115,6 +1115,7 @@ body::before {
   border: none !important;
   font-weight: 600 !important;
   border-radius: var(--radius-sm) !important;
+  color: #ffffff !important;
 }
 
 [data-amplify-authenticator] button[type="submit"]:hover {
