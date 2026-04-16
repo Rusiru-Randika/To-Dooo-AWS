@@ -219,9 +219,6 @@ function TodoApp({ signOut, user, theme, toggleTheme }) {
           👋 {user?.signInDetails?.loginId || 'User'} {/* ← email from Cognito */}
         </span>
         <div className="app__topbar-actions">
-          <button className="app__icon-btn" onClick={toggleTheme} aria-label="Toggle Theme">
-            {theme === 'dark' ? '☀️' : '🌙'}
-          </button>
           <button className="app__signout" onClick={signOut}>
             Sign Out {/* ← Clears Cognito JWT session */}
           </button>
@@ -315,23 +312,18 @@ export default function App() {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
   };
 
-  const components = {
-    Header() {
-      return (
-        <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '16px' }}>
-          <button className="app__icon-btn" onClick={toggleTheme} aria-label="Toggle Theme">
-            {theme === 'dark' ? '☀️' : '🌙'}
-          </button>
-        </div>
-      );
-    }
-  };
-
   return (
-    <Authenticator components={components}>
-      {({ signOut, user }) => (
-        <TodoApp signOut={signOut} user={user} theme={theme} toggleTheme={toggleTheme} />
-      )}
-    </Authenticator>
+    <>
+      <div className="global-theme-toggle">
+        <button className="app__icon-btn" onClick={toggleTheme} aria-label="Toggle Theme">
+          {theme === 'dark' ? '☀️' : '🌙'}
+        </button>
+      </div>
+      <Authenticator>
+        {({ signOut, user }) => (
+          <TodoApp signOut={signOut} user={user} theme={theme} toggleTheme={toggleTheme} />
+        )}
+      </Authenticator>
+    </>
   );
 }

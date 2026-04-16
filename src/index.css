@@ -945,6 +945,13 @@ body::before {
   font-weight: 500;
 }
 
+.global-theme-toggle {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 1000;
+}
+
 .app__topbar-actions {
   display: flex;
   align-items: center;
