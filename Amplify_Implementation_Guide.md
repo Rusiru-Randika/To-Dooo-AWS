@@ -145,9 +145,10 @@ export async function deleteTodo(id) {
 
 ---
 
-## 4. UI Customization & cleanup
+## 4. UI Customization & Theme Engine
 
-- **Dark Theme Override**: In `src/index.css`, we added scoped CSS variables targeting `[data-amplify-authenticator]` to seamlessly match Amplify's login interface to our custom premium dark theme.
+- **Dynamic Theme Engine (Light/Dark Mode)**: In `src/App.jsx`, we implemented a global `theme` state backed by `localStorage` that toggles a `data-theme="light"` attribute on the document root. A custom premium glassmorphism floating button is rendered globally alongside the Authenticator to toggle this state.
+- **Authenticator CSS Overrides**: In `src/index.css`, scoped CSS variables targeting `[data-amplify-authenticator]` strictly force the Amplify login interface to dynamically inherit our custom Dark/Light color tokens (including detailed contrast fixes for password eyes and submit buttons).
 - **Top bar**: We introduced a top bar inside `TodoApp` which displays the authenticated user's email (`user?.signInDetails?.loginId`) and a "Sign Out" button hooked up to the `signOut` function provided by the Authenticator.
 - **Proxy Removal**: We removed the `/api` proxy mappings from `vite.config.js` because frontend HTTP requests now securely target AWS directly rather than a local Express proxy.
 
