@@ -1121,6 +1121,21 @@ body::before {
   box-shadow: var(--shadow-accent) !important;
 }
 
+/* Fix for the Show Password "Eye" Icon */
+[data-amplify-authenticator] .amplify-button {
+  color: var(--text-secondary);
+}
+
+[data-amplify-authenticator] .amplify-field-show-password {
+  color: var(--text-secondary) !important;
+  background: transparent !important;
+}
+
+[data-amplify-authenticator] .amplify-field-show-password:hover {
+  color: var(--accent) !important;
+  background: var(--accent-subtle) !important;
+}
+
 /* Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
