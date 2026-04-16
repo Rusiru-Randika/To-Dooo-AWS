@@ -79,6 +79,21 @@ function TodoApp({ signOut, user }) {
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
   const [toasts, setToasts] = useState([]);
+  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark');
+
+  // Apply theme to document
+  useEffect(() => {
+    if (theme === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+  };
 
   // Toast notification helpers
   const addToast = useCallback((message, type = 'success') => {
@@ -218,9 +233,14 @@ function TodoApp({ signOut, user }) {
         <span className="app__user">
           👋 {user?.signInDetails?.loginId || 'User'} {/* ← email from Cognito */}
         </span>
-        <button className="app__signout" onClick={signOut}>
-          Sign Out {/* ← Clears Cognito JWT session */}
-        </button>
+        <div className="app__topbar-actions">
+          <button className="app__icon-btn" onClick={toggleTheme} aria-label="Toggle Theme">
+            {theme === 'dark' ? '☀️' : '🌙'}
+          </button>
+          <button className="app__signout" onClick={signOut}>
+            Sign Out {/* ← Clears Cognito JWT session */}
+          </button>
+        </div>
       </div>
 
       <Header />
