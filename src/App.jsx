@@ -315,8 +315,10 @@ export default function App() {
   return (
     <>
       <div className="global-theme-toggle">
-        <button className="app__icon-btn" onClick={toggleTheme} aria-label="Toggle Theme">
-          {theme === 'dark' ? '☀️' : '🌙'}
+        <button className="theme-switcher-btn" onClick={toggleTheme} aria-label="Toggle Theme">
+          <span className="theme-switcher-icon">
+            {theme === 'dark' ? '☀️' : '🌙'}
+          </span>
         </button>
       </div>
       <Authenticator>
