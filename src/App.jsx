@@ -71,7 +71,7 @@ import { fetchTodos, createTodo, updateTodo, toggleTodo, deleteTodo, clearComple
  *     user.signInDetails.loginId → user's email address
  *     user.userId → Cognito user ID (used as "owner" in DynamoDB)
  */
-function TodoApp({ signOut, user }) {
+function TodoApp({ signOut, user, theme, toggleTheme }) {
   const [todos, setTodos] = useState([]);
   const [stats, setStats] = useState({ total: 0, active: 0, completed: 0 });
   const [filter, setFilter] = useState('all');
@@ -79,21 +79,6 @@ function TodoApp({ signOut, user }) {
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
   const [toasts, setToasts] = useState([]);
-  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark');
-
-  // Apply theme to document
-  useEffect(() => {
-    if (theme === 'light') {
-      document.documentElement.setAttribute('data-theme', 'light');
-    } else {
-      document.documentElement.removeAttribute('data-theme');
-    }
-    localStorage.setItem('theme', theme);
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
-  };
 
   // Toast notification helpers
   const addToast = useCallback((message, type = 'success') => {
@@ -314,10 +299,38 @@ function TodoApp({ signOut, user }) {
  * using [data-amplify-authenticator] selectors.
  */
 export default function App() {
+  const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark');
+
+  // Apply theme to document
+  useEffect(() => {
+    if (theme === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+  };
+
+  const components = {
+    Header() {
+      return (
+        <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '16px' }}>
+          <button className="app__icon-btn" onClick={toggleTheme} aria-label="Toggle Theme">
+            {theme === 'dark' ? '☀️' : '🌙'}
+          </button>
+        </div>
+      );
+    }
+  };
+
   return (
-    <Authenticator>
+    <Authenticator components={components}>
       {({ signOut, user }) => (
-        <TodoApp signOut={signOut} user={user} />
+        <TodoApp signOut={signOut} user={user} theme={theme} toggleTheme={toggleTheme} />
       )}
     </Authenticator>
   );
